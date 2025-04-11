@@ -1,228 +1,255 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-        .police-header {
-            background: linear-gradient(to right, #1a237e, #0d47a1);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .police-badge {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            border: 2px solid #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        .emergency-btn {
-            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .feature-card {
-            transition: transform 0.3s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-    </style>
-</head>
-<body class="min-h-screen">
-    <!-- Header -->
-    <header class="police-header text-white">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-4">
-                    <div class="police-badge w-12 h-12 rounded-full flex items-center justify-center">
-                        <span class="text-2xl">⚡</span>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl font-bold">Virtual Police Station</h1>
-                        <p class="text-sm text-gray-200">Government of India</p>
-                    </div>
+<div class="bg-white rounded-lg shadow-md p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-merriweather font-bold text-navy">Welcome, <%= user.name %></h1>
+        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+            Verified User
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+            <h2 class="text-lg font-bold text-blue-800 mb-2">Personal Information</h2>
+            <div class="space-y-2 text-gray-700">
+                <p><span class="font-medium">Name:</span> <%= user.name %></p>
+                <p><span class="font-medium">Phone:</span> +91 <%= user.phone %></p>
+                <p><span class="font-medium">Aadhaar:</span> XXXX-XXXX-<%= user.aadhaar.slice(-4) %></p>
+                <p><span class="font-medium">Registered on:</span> <%= new Date(user.registeredAt).toLocaleDateString() %></p>
+            </div>
+        </div>
+        
+        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+            <h2 class="text-lg font-bold text-blue-800 mb-2">Account Status</h2>
+            <div class="space-y-2">
+                <div class="flex items-center text-green-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Verification Complete</span>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <a href="/emergency" class="emergency-btn px-6 py-2 rounded-full font-bold flex items-center space-x-2">
-                        <span>🚨</span>
-                        <span>Emergency</span>
-                    </a>
-                    <a href="/logout" class="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">
-                        Logout
-                    </a>
+                <div class="flex items-center text-green-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Phone Verified</span>
+                </div>
+                <div class="flex items-center text-green-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Aadhaar Verified</span>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <!-- User Profile Card -->
-            <div class="lg:col-span-1">
-                <div class="card rounded-xl shadow-xl p-6">
-                    <div class="text-center mb-6">
-                        <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <span class="text-4xl">👤</span>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <a href="/fir/new" class="block bg-yellow-50 border border-yellow-100 p-6 rounded-lg text-center hover:bg-yellow-100 transition duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-yellow-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <h3 class="text-lg font-bold text-yellow-800">File New FIR</h3>
+            <p class="text-yellow-700 mt-2">Submit a new First Information Report</p>
+        </a>
+        
+        <a href="/fir/track" class="block bg-blue-50 border border-blue-100 p-6 rounded-lg text-center hover:bg-blue-100 transition duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-blue-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            <h3 class="text-lg font-bold text-blue-800">Track FIR Status</h3>
+            <p class="text-blue-700 mt-2">Check the status of your filed FIRs</p>
+        </a>
+        
+        <a href="/appointments/new" class="block bg-green-50 border border-green-100 p-6 rounded-lg text-center hover:bg-green-100 transition duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-green-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <h3 class="text-lg font-bold text-green-800">Book Appointment</h3>
+            <p class="text-green-700 mt-2">Schedule an appointment with police</p>
+        </a>
+    </div>
+
+    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">FIR Status</h2>
+            <a href="/fir/track" class="text-blue-600 hover:text-blue-800">View All</a>
+        </div>
+
+        <% if (locals.firStats && firStats.total > 0) { %>
+            <!-- FIR Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-500">Total FIRs</p>
+                            <h3 class="text-2xl font-bold text-blue-600"><%= firStats.total %></h3>
                         </div>
-                        <h2 class="text-xl font-bold text-gray-800"><%= user.name %></h2>
-                        <p class="text-gray-600">Aadhaar: <%= user.aadhaar %></p>
-                        <p class="text-gray-600">Phone: <%= user.phone %></p>
-                    </div>
-                    <div class="space-y-4">
-                        <a href="/profile" class="block text-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                            Edit Profile
-                        </a>
-                        <a href="/change-password" class="block text-center bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition">
-                            Change Password
-                        </a>
+                        <div class="text-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Quick Actions -->
-            <div class="lg:col-span-3">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Recent FIRs -->
-                    <div class="card rounded-xl shadow-xl p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">Recent FIRs</h3>
-                        <% if (firs && firs.length > 0) { %>
-                            <div class="space-y-4">
-                                <% firs.forEach(fir => { %>
-                                    <div class="bg-gray-50 p-4 rounded-lg">
-                                        <div class="flex justify-between items-start">
-                                            <div>
-                                                <p class="font-medium text-gray-800">FIR #<%= fir._id.toString().slice(-6) %></p>
-                                                <p class="text-sm text-gray-600"><%= fir.firDetails.crimeType %></p>
-                                            </div>
-                                            <span class="px-2 py-1 text-xs rounded-full 
-                                                <%= fir.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                                                   fir.status === 'approved' ? 'bg-green-100 text-green-800' : 
-                                                   'bg-red-100 text-red-800' %>">
-                                                <%= fir.status %>
-                                            </span>
-                                        </div>
-                                        <a href="/fir/<%= fir._id %>" class="text-blue-600 text-sm hover:underline mt-2 block">
-                                            View Details
-                                        </a>
-                                    </div>
-                                <% }); %>
-                            </div>
-                        <% } else { %>
-                            <p class="text-gray-600">No FIRs filed yet</p>
-                        <% } %>
-                        <a href="/fir/new" class="mt-4 block text-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                            File New FIR
-                        </a>
+                <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-500">Pending</p>
+                            <h3 class="text-2xl font-bold text-yellow-600"><%= firStats.pending %></h3>
+                        </div>
+                        <div class="text-yellow-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Upcoming Appointments -->
-                    <div class="card rounded-xl shadow-xl p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">Upcoming Appointments</h3>
-                        <% if (appointments && appointments.length > 0) { %>
-                            <div class="space-y-4">
-                                <% appointments.forEach(appointment => { %>
-                                    <div class="bg-gray-50 p-4 rounded-lg">
-                                        <div class="flex justify-between items-start">
-                                            <div>
-                                                <p class="font-medium text-gray-800"><%= appointment.purpose %></p>
-                                                <p class="text-sm text-gray-600">
-                                                    <%= new Date(appointment.date).toLocaleDateString() %>
-                                                    <%= appointment.time %>
-                                                </p>
-                                            </div>
-                                            <span class="px-2 py-1 text-xs rounded-full 
-                                                <%= appointment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                                                   appointment.status === 'confirmed' ? 'bg-green-100 text-green-800' : 
-                                                   'bg-red-100 text-red-800' %>">
-                                                <%= appointment.status %>
-                                            </span>
-                                        </div>
-                                        <a href="/appointments/<%= appointment._id %>" class="text-blue-600 text-sm hover:underline mt-2 block">
-                                            View Details
-                                        </a>
-                                    </div>
-                                <% }); %>
-                            </div>
-                        <% } else { %>
-                            <p class="text-gray-600">No upcoming appointments</p>
-                        <% } %>
-                        <a href="/appointments/new" class="mt-4 block text-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                            Schedule Appointment
-                        </a>
+                <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-500">Under Investigation</p>
+                            <h3 class="text-2xl font-bold text-purple-600"><%= firStats.investigation %></h3>
+                        </div>
+                        <div class="text-purple-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Quick Services -->
-                    <div class="card rounded-xl shadow-xl p-6 md:col-span-2">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">Quick Services</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <a href="/complaints" class="feature-card block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 text-center">
-                                <span class="text-3xl block mb-2">📢</span>
-                                <span class="font-medium">Register Complaint</span>
-                            </a>
-                            <a href="/verification" class="feature-card block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 text-center">
-                                <span class="text-3xl block mb-2">✅</span>
-                                <span class="font-medium">Document Verification</span>
-                            </a>
-                            <a href="/missing" class="feature-card block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 text-center">
-                                <span class="text-3xl block mb-2">🔍</span>
-                                <span class="font-medium">Missing Person</span>
-                            </a>
-                            <a href="/cyber" class="feature-card block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 text-center">
-                                <span class="text-3xl block mb-2">💻</span>
-                                <span class="font-medium">Cyber Crime</span>
-                            </a>
+                <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-500">Closed</p>
+                            <h3 class="text-2xl font-bold text-green-600"><%= firStats.closed %></h3>
+                        </div>
+                        <div class="text-green-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white mt-12">
-        <div class="container mx-auto px-4 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h4 class="text-lg font-bold mb-4">Contact Us</h4>
-                    <p class="text-gray-300">24x7 Helpline: 100</p>
-                    <p class="text-gray-300">Email: support@virtualpolice.gov.in</p>
+            <!-- Recent FIRs -->
+            <div class="bg-white rounded-lg border border-gray-200">
+                <div class="px-4 py-3 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800">Recent FIRs</h3>
                 </div>
-                <div>
-                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="/about" class="text-gray-300 hover:text-white">About Us</a></li>
-                        <li><a href="/privacy" class="text-gray-300 hover:text-white">Privacy Policy</a></li>
-                        <li><a href="/terms" class="text-gray-300 hover:text-white">Terms of Service</a></li>
-                    </ul>
+                <div class="divide-y divide-gray-200">
+                    <% firStats.recentFirs.forEach(fir => { %>
+                        <div class="p-4 hover:bg-gray-50">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-medium text-gray-800">FIR #<%= fir.firNumber %></p>
+                                    <p class="text-sm text-gray-600"><%= new Date(fir.createdAt).toLocaleDateString() %></p>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="px-3 py-1 rounded-full text-sm font-medium
+                                        <%= fir.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                                        fir.status === 'Under Review' ? 'bg-blue-100 text-blue-800' :
+                                        fir.status === 'Investigation' ? 'bg-purple-100 text-purple-800' :
+                                        'bg-green-100 text-green-800' %>">
+                                        <%= fir.status %>
+                                    </span>
+                                    <a href="/fir/<%= fir._id %>" class="ml-4 text-blue-600 hover:text-blue-800">
+                                        View Details →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
                 </div>
-                <div>
-                    <h4 class="text-lg font-bold mb-4">Follow Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-300 hover:text-white">Twitter</a>
-                        <a href="#" class="text-gray-300 hover:text-white">Facebook</a>
-                        <a href="#" class="text-gray-300 hover:text-white">Instagram</a>
+            </div>
+        <% } else { %>
+            <div class="text-center py-8 text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <p class="text-lg font-medium">No FIRs filed yet</p>
+                <p class="mt-2">You haven't filed any FIRs yet. Click on "File New FIR" to get started.</p>
+                <a href="/fir/new" class="mt-4 inline-block bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition duration-200">
+                    File New FIR
+                </a>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Appointments Summary -->
+    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mt-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">Appointments</h2>
+            <a href="/appointments" class="text-blue-600 hover:text-blue-800">View All</a>
+        </div>
+        
+        <% if (locals.appointmentStats && appointmentStats.total > 0) { %>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-500">Upcoming</p>
+                            <h3 class="text-2xl font-bold text-blue-600"><%= appointmentStats.upcoming %></h3>
+                        </div>
+                        <div class="text-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-500">Pending</p>
+                            <h3 class="text-2xl font-bold text-yellow-600"><%= appointmentStats.pending %></h3>
+                        </div>
+                        <div class="text-yellow-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-gray-500">Completed</p>
+                            <h3 class="text-2xl font-bold text-green-600"><%= appointmentStats.completed %></h3>
+                        </div>
+                        <div class="text-green-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-                <p>© 2024 Virtual Police Station. All rights reserved.</p>
+            
+            <% if (appointmentStats.upcoming > 0) { %>
+                <div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                    <p class="text-blue-800">
+                        <span class="font-medium">Next Appointment:</span> 
+                        You have <%= appointmentStats.upcoming %> upcoming appointment<%= appointmentStats.upcoming > 1 ? 's' : '' %>. 
+                        <a href="/appointments" class="text-blue-600 hover:text-blue-800 underline">View details</a>
+                    </p>
+                </div>
+            <% } %>
+        <% } else { %>
+            <div class="text-center py-8 text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p class="text-lg font-medium">No Appointments</p>
+                <p class="mt-2">You haven't booked any appointments yet.</p>
+                <a href="/appointments/new" class="mt-4 inline-block bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition duration-200">
+                    Book Your First Appointment
+                </a>
             </div>
-        </div>
-    </footer>
-</body>
-</html> 
+        <% } %>
+    </div>
+</div> 
