@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File FIR - Virtual Police Station</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+        }
+        .file-upload input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .file-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-[#001f3f] text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="police-badge w-10 h-10 rounded-full flex items-center justify-center">
+                    <span class="text-[#FFD700] text-xl">⚡</span>
+                </div>
+                <h1 class="text-xl font-bold">Virtual Police Station</h1>
+            </div>
+            <a href="/" class="hover:text-[#FFD700]">Back to Home</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4">
+        <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-[#001f3f] mb-6">File First Information Report (FIR)</h2>
+            
+            <form id="firForm" action="/fir/new" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" id="name" name="name" required
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#001f3f] focus:ring-[#001f3f]">
+                    </div>
+                    
+                    <div>
+                        <label for="contact" class="block text-sm font-medium text-gray-700">Contact Number</label>
+                        <input type="tel" id="contact" name="contact" required
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#001f3f] focus:ring-[#001f3f]">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="aadhaar" class="block text-sm font-medium text-gray-700">Aadhaar Number (Optional)</label>
+                    <input type="text" id="aadhaar" name="aadhaar" pattern="\d{12}"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#001f3f] focus:ring-[#001f3f]">
+                </div>
+
+                <div>
+                    <label for="crimeType" class="block text-sm font-medium text-gray-700">Type of Crime</label>
+                    <select id="crimeType" name="crimeType" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#001f3f] focus:ring-[#001f3f]">
+                        <option value="">Select Crime Type</option>
+                        <option value="theft">Theft</option>
+                        <option value="assault">Assault</option>
+                        <option value="fraud">Fraud</option>
+                        <option value="cybercrime">Cyber Crime</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700">Location of Crime</label>
+                    <input type="text" id="location" name="location" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#001f3f] focus:ring-[#001f3f]">
+                </div>
+
+                <div>
+                    <label for="dateTime" class="block text-sm font-medium text-gray-700">Date and Time of Crime</label>
+                    <input type="datetime-local" id="dateTime" name="dateTime" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#001f3f] focus:ring-[#001f3f]">
+                </div>
+
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description of Incident</label>
+                    <textarea id="description" name="description" rows="4" required
+                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#001f3f] focus:ring-[#001f3f]"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Upload Evidence</label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md file-upload">
+                        <div class="space-y-1 text-center">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <div class="flex text-sm text-gray-600">
+                                <label for="evidence" class="relative cursor-pointer bg-white rounded-md font-medium text-[#001f3f] hover:text-blue-500 focus-within:outline-none">
+                                    <span>Upload files</span>
+                                    <input id="evidence" name="evidence" type="file" multiple accept=".jpg,.jpeg,.png,.pdf" class="sr-only">
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-500">PNG, JPG, PDF up to 10MB</p>
+                        </div>
+                    </div>
+                    <div id="fileList" class="mt-4 file-list hidden">
+                        <h4 class="text-sm font-medium text-gray-700 mb-2">Selected Files:</h4>
+                        <ul class="space-y-2"></ul>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <button type="button" onclick="window.location.href='/'" 
+                            class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="bg-[#001f3f] text-white px-4 py-2 rounded hover:bg-blue-800 transition">
+                        Preview FIR
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Handle file selection and display
+        document.getElementById('evidence').addEventListener('change', function(e) {
+            const fileList = document.getElementById('fileList');
+            const fileListUl = fileList.querySelector('ul');
+            fileListUl.innerHTML = '';
+            
+            if (this.files.length > 0) {
+                fileList.classList.remove('hidden');
+                Array.from(this.files).forEach(file => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center justify-between bg-gray-50 p-2 rounded';
+                    li.innerHTML = `
+                        <span class="text-sm text-gray-600">${file.name}</span>
+                        <span class="text-xs text-gray-500">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                    `;
+                    fileListUl.appendChild(li);
+                });
+            } else {
+                fileList.classList.add('hidden');
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('firForm').addEventListener('submit', function(e) {
+            const files = document.getElementById('evidence').files;
+            if (files.length > 0) {
+                for (let i = 0; i < files.length; i++) {
+                    if (files[i].size > 10 * 1024 * 1024) {
+                        e.preventDefault();
+                        alert('File size should not exceed 10MB');
+                        return;
+                    }
+                }
+            }
+            // Form will be submitted to the server
+        });
+    </script>
+</body>
+</html> 

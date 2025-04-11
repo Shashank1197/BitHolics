@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIR Details - Virtual Police Station</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-[#001f3f] text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="police-badge w-10 h-10 rounded-full flex items-center justify-center">
+                    <span class="text-[#FFD700] text-xl">⚡</span>
+                </div>
+                <h1 class="text-xl font-bold">Virtual Police Station</h1>
+            </div>
+            <a href="/track" class="hover:text-[#FFD700]">Back to Track</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4">
+        <% if (messages.error) { %>
+            <div class="mb-4 p-4 rounded-lg bg-red-100 text-red-700">
+                <%= messages.error %>
+            </div>
+        <% } %>
+        <% if (messages.success) { %>
+            <div class="mb-4 p-4 rounded-lg bg-green-100 text-green-700">
+                <%= messages.success %>
+            </div>
+        <% } %>
+
+        <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
+            <div class="border-b-2 border-[#001f3f] pb-4 mb-6">
+                <h2 class="text-2xl font-bold text-[#001f3f]">FIR Details</h2>
+                <p class="text-gray-600">FIR ID: <%= fir._id %></p>
+                <p class="text-gray-600">Status: <span class="font-semibold <%= 
+                    fir.status === 'pending' ? 'text-yellow-600' : 
+                    fir.status === 'under_investigation' ? 'text-blue-600' : 
+                    fir.status === 'resolved' ? 'text-green-600' : 'text-red-600' 
+                %>"><%= fir.status %></span></p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Complainant Details -->
+                <div>
+                    <h3 class="text-lg font-semibold text-[#001f3f] mb-2">Complainant Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-600">Name</p>
+                            <p class="font-medium"><%= fir.firDetails.name %></p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Contact Number</p>
+                            <p class="font-medium"><%= fir.firDetails.contact %></p>
+                        </div>
+                        <% if (fir.firDetails.aadhaar) { %>
+                            <div>
+                                <p class="text-gray-600">Aadhaar Number</p>
+                                <p class="font-medium"><%= fir.firDetails.aadhaar %></p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Incident Details -->
+                <div>
+                    <h3 class="text-lg font-semibold text-[#001f3f] mb-2">Incident Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-600">Type of Crime</p>
+                            <p class="font-medium"><%= fir.firDetails.crimeType %></p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Location</p>
+                            <p class="font-medium"><%= fir.firDetails.location %></p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Date and Time</p>
+                            <p class="font-medium"><%= new Date(fir.firDetails.dateTime).toLocaleString() %></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <h3 class="text-lg font-semibold text-[#001f3f] mb-2">Description</h3>
+                    <p class="text-gray-700"><%= fir.firDetails.description %></p>
+                </div>
+
+                <!-- Evidence -->
+                <% if (fir.evidence && fir.evidence.length > 0) { %>
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#001f3f] mb-2">Evidence</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <% fir.evidence.forEach(file => { %>
+                                <div class="border rounded-lg p-4">
+                                    <p class="text-gray-600">File Name</p>
+                                    <p class="font-medium"><%= file.originalname %></p>
+                                    <div class="mt-2">
+                                        <a href="/<%= file.path %>" target="_blank" 
+                                           class="text-blue-600 hover:text-blue-800">
+                                            View File
+                                        </a>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                <% } %>
+
+                <!-- Status Timeline -->
+                <div>
+                    <h3 class="text-lg font-semibold text-[#001f3f] mb-2">Status Timeline</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                            <span>FIR Created: <%= new Date(fir.createdAt).toLocaleString() %></span>
+                        </div>
+                        <% if (fir.status !== 'pending') { %>
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                                <span>Status Updated: <%= new Date(fir.updatedAt).toLocaleString() %></span>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html> 

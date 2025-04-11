@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track FIR - Virtual Police Station</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-[#001f3f] text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="police-badge w-10 h-10 rounded-full flex items-center justify-center">
+                    <span class="text-[#FFD700] text-xl">⚡</span>
+                </div>
+                <h1 class="text-xl font-bold">Virtual Police Station</h1>
+            </div>
+            <div class="flex space-x-4">
+                <a href="/" class="hover:text-[#FFD700]">Home</a>
+                <a href="/fir/new" class="hover:text-[#FFD700]">New FIR</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4">
+        <% if (messages.error) { %>
+            <div class="mb-4 p-4 rounded-lg bg-red-100 text-red-700">
+                <%= messages.error %>
+            </div>
+        <% } %>
+        <% if (messages.success) { %>
+            <div class="mb-4 p-4 rounded-lg bg-green-100 text-green-700">
+                <%= messages.success %>
+            </div>
+        <% } %>
+
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-[#001f3f] mb-6">Your FIRs</h2>
+            
+            <% if (firs && firs.length > 0) { %>
+                <div class="space-y-4">
+                    <% firs.forEach(fir => { %>
+                        <div class="bg-white rounded-lg shadow-lg p-6">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-[#001f3f]">
+                                        FIR #<%= fir._id.toString().slice(-6) %>
+                                    </h3>
+                                    <p class="text-gray-600">
+                                        Created: <%= new Date(fir.createdAt).toLocaleString() %>
+                                    </p>
+                                </div>
+                                <span class="px-3 py-1 rounded-full text-sm font-semibold <%= 
+                                    fir.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                    fir.status === 'under_investigation' ? 'bg-blue-100 text-blue-800' : 
+                                    fir.status === 'resolved' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' 
+                                %>">
+                                    <%= fir.status %>
+                                </span>
+                            </div>
+                            
+                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-gray-600">Type of Crime</p>
+                                    <p class="font-medium"><%= fir.firDetails.crimeType %></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600">Location</p>
+                                    <p class="font-medium"><%= fir.firDetails.location %></p>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <a href="/fir/<%= fir._id %>" 
+                                   class="text-blue-600 hover:text-blue-800 font-medium">
+                                    View Details →
+                                </a>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <p class="text-gray-600">No FIRs found. <a href="/fir/new" class="text-blue-600 hover:text-blue-800">File a new FIR</a></p>
+                </div>
+            <% } %>
+        </div>
+    </main>
+</body>
+</html> 
