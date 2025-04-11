@@ -1,4 +1,4 @@
-# BitHoliocs-Team
+# BitHolics-Team
 virtual police station
 Virtual Police Station is a secure, responsive web platform designed to modernize and digitize the FIR (First Information Report) filing process in India. It empowers citizens—especially those in remote or vulnerable areas—to report crimes and track cases transparently and efficiently using a digital-first approach.
 
