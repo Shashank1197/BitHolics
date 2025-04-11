@@ -127,9 +127,12 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Statement</label>
-                            <input type="text" class="form-control" name="witnesses[0][statement]">
+                            <textarea class="form-control" name="witnesses[0][statement]" rows="2"></textarea>
                         </div>
                     </div>
+                    <button type="button" class="btn btn-danger btn-sm mt-2 remove-witness" onclick="removeWitness(this)" style="display: none;">
+                        Remove Witness
+                    </button>
                 </div>
             </div>
             <div class="card-footer">
@@ -169,6 +172,9 @@
                                 </div>
                             </div>
                             <div class="preview mt-2"></div>
+                            <button type="button" class="btn btn-danger btn-sm mt-2 remove-evidence" onclick="removeEvidence(this)" style="display: none;">
+                                Remove Evidence
+                            </button>
                         </div>
                     </div>
                     <button type="button" class="btn btn-secondary mt-2" onclick="addEvidenceField()">
@@ -189,6 +195,10 @@
 .evidence-description {
     min-height: 80px;
     max-height: 120px;
+}
+.remove-witness,
+.remove-evidence {
+    transition: opacity 0.3s;
 }
 </style>
 
@@ -211,13 +221,39 @@ function addWitness() {
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Statement</label>
-                    <input type="text" class="form-control" name="witnesses[${witnessCount}][statement]">
+                    <textarea class="form-control" name="witnesses[${witnessCount}][statement]" rows="2"></textarea>
                 </div>
             </div>
+            <button type="button" class="btn btn-danger btn-sm mt-2 remove-witness" onclick="removeWitness(this)">
+                Remove Witness
+            </button>
         </div>
     `;
     container.insertAdjacentHTML('beforeend', witnessHtml);
     witnessCount++;
+    
+    // Show all remove buttons if there's more than one witness
+    if (container.querySelectorAll('.witness-entry').length > 1) {
+        container.querySelectorAll('.remove-witness').forEach(btn => btn.style.display = 'block');
+    }
+}
+
+function removeWitness(button) {
+    const container = document.getElementById('witnessContainer');
+    button.closest('.witness-entry').remove();
+    
+    // Hide remove buttons if only one witness remains
+    if (container.querySelectorAll('.witness-entry').length === 1) {
+        container.querySelector('.remove-witness').style.display = 'none';
+    }
+    
+    // Reindex remaining witnesses
+    container.querySelectorAll('.witness-entry').forEach((entry, index) => {
+        entry.querySelectorAll('input, textarea').forEach(input => {
+            input.name = input.name.replace(/witnesses\[\d+\]/, `witnesses[${index}]`);
+        });
+    });
+    witnessCount = container.querySelectorAll('.witness-entry').length;
 }
 
 function addEvidenceField() {
@@ -248,9 +284,28 @@ function addEvidenceField() {
             </div>
         </div>
         <div class="preview mt-2"></div>
+        <button type="button" class="btn btn-danger btn-sm mt-2 remove-evidence" onclick="removeEvidence(this)">
+            Remove Evidence
+        </button>
     `;
     container.appendChild(newEntry);
     evidenceCount++;
+    
+    // Show all remove buttons if there's more than one evidence
+    if (container.querySelectorAll('.evidence-entry').length > 1) {
+        container.querySelectorAll('.remove-evidence').forEach(btn => btn.style.display = 'block');
+    }
+}
+
+function removeEvidence(button) {
+    const container = document.querySelector('.evidence-container');
+    button.closest('.evidence-entry').remove();
+    evidenceCount--;
+    
+    // Hide remove buttons if only one evidence remains
+    if (container.querySelectorAll('.evidence-entry').length === 1) {
+        container.querySelector('.remove-evidence').style.display = 'none';
+    }
 }
 
 function previewFile(input, index) {

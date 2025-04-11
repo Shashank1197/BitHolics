@@ -7,10 +7,11 @@ const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 const { isAuthenticated } = require('./config/middleware');
 
-// Import routes
+// Import routes  
 const authRoutes = require('./routes/authRoutes');
 const firRoutes = require('./routes/firRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
+const feedbackRoutes = require('./routes/feedbackRoutes');
 
 const app = express();
 
@@ -121,10 +122,30 @@ app.use('/appointments', checkAuth);
 app.use('/auth', authRoutes);
 app.use('/fir', firRoutes);
 app.use('/appointments', appointmentRoutes);
+app.use('/feedback', feedbackRoutes);
 
 // Home page route
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Home' });
+  res.render('index', { 
+    user: req.session.user,
+    title: 'Home'
+  });
+});
+
+// About page route
+app.get('/about', (req, res) => {
+  res.render('about', { 
+    user: req.session.user,
+    title: 'About Us'
+  });
+});
+
+// FAQ page route
+app.get('/faq', (req, res) => {
+  res.render('faq', { 
+    user: req.session.user,
+    title: 'FAQ'
+  });
 });
 
 // Dashboard route (requires authentication)
