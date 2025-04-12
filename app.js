@@ -7,18 +7,45 @@ const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 const { isAuthenticated } = require('./config/middleware');
 
-// Import routes  
+// Import routes
 const authRoutes = require('./routes/authRoutes');
-const firRoutes = require('./routes/firRoutes') ;
+const firRoutes = require('./routes/firRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const questionRoutes = require('./routes/questionRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 const app = express();
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/virtual-police-station')
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+// Connect to MongoDB with modern configuration
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/virtual-police-station', {
+    serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+    family: 4 // Use IPv4, skip trying IPv6
+})
+.then(() => {
+    console.log('Successfully connected to MongoDB.');
+    console.log('Database URL:', process.env.MONGODB_URI || 'mongodb://localhost:27017/virtual-police-station');
+})
+.catch(err => {
+    console.error('MongoDB connection error:', err);
+    console.error('Please make sure MongoDB is installed and running on your system.');
+    console.error('Installation guide: https://docs.mongodb.com/manual/installation/');
+    process.exit(1);
+});
+
+// Add MongoDB connection error handler
+mongoose.connection.on('error', err => {
+    console.error('MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+    console.log('MongoDB disconnected. Attempting to reconnect...');
+});
+
+mongoose.connection.on('reconnected', () => {
+    console.log('MongoDB reconnected successfully.');
+});
 
 // Middleware
 app.use(express.json());
@@ -123,6 +150,9 @@ app.use('/auth', authRoutes);
 app.use('/fir', firRoutes);
 app.use('/appointments', appointmentRoutes);
 app.use('/feedback', feedbackRoutes);
+app.use('/auth/admin', adminRoutes);
+app.use('/questions', questionRoutes);
+app.use('/contact', contactRoutes);
 
 // Home page route
 app.get('/', (req, res) => {
@@ -137,6 +167,14 @@ app.get('/about', (req, res) => {
   res.render('about', { 
     user: req.session.user,
     title: 'About Us'
+  });
+});
+
+// Privacy Policy route
+app.get('/privacy', (req, res) => {
+  res.render('privacy', {
+    title: 'Privacy Policy',
+    user: req.session.user
   });
 });
 
@@ -225,7 +263,17 @@ app.use((req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use. Please try these solutions:`);
+    console.error('1. Use a different port by setting the PORT environment variable');
+    console.error('2. Kill the process using the port and try again');
+    console.error('3. Wait a few seconds and try starting the server again');
+  } else {
+    console.error('Server error:', err);
+  }
+  process.exit(1);
 }); 

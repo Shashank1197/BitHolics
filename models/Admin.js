@@ -12,10 +12,20 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true
+  },
+  fullName: {
+    type: String,
+    required: true
+  },
   role: {
     type: String,
-    enum: ['SHO', 'Officer', 'Admin'],
-    required: true
+    default: 'admin'
   },
   personalInfo: {
     name: {
@@ -63,7 +73,9 @@ const adminSchema = new mongoose.Schema({
       'export_data'
     ]
   }],
-  lastLogin: Date,
+  lastLogin: {
+    type: Date
+  },
   status: {
     type: String,
     enum: ['Active', 'Inactive', 'Suspended'],
@@ -77,15 +89,21 @@ const adminSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
+}, {
+  timestamps: true
 });
 
-// Pre-save middleware to hash password
+// Hash password before saving
 adminSchema.pre('save', async function(next) {
-  if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 10);
+  if (!this.isModified('password')) return next();
+  
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
   }
-  this.updatedAt = new Date();
-  next();
 });
 
 // Method to verify password
